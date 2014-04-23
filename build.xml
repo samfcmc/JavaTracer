@@ -3,6 +3,8 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="bin" />
 	<property name="jar.file" value="tracer" />
+	<property name="libs.dir" location="libs"/>
+
 
 	<target name="prepare" description="Create working dirs">
 		<mkdir dir="${build.dir}" />
@@ -14,6 +16,11 @@
 
 	<target name="compile" description="Compile Java sources and copy to WEB-INF/classes dir" depends="prepare">
 		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" debug="true">
+			<classpath>
+				<fileset dir="${libs.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
 		</javac>
 	</target>
 
