@@ -32,7 +32,8 @@
 	</target>
 
 	<target name="run" depends="build">
-		<java classname="ist.meic.pa.main.Main" dir="${build.dir}" fork="true">
+		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
+			<arg value="ist.meic.pa.main.Main" />
 		</java>
 	</target>
 
