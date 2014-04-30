@@ -28,7 +28,7 @@ public class Trace {
 		}
 	}
 
-	private static History getHistory(Object object) {
+	public static History getHistory(Object object) {
 		return history.get(object.hashCode());
 	}
 	
