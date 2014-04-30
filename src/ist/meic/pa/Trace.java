@@ -12,7 +12,7 @@ public class Trace {
 
 	private static Map<Integer, History> history = new HashMap<Integer, History>();
 	private static PrintStream printStream = System.err;
-	private static final String NO_HISTORY = "Tracing for {0} is nonexistent!";
+	private static final String NO_HISTORY = "Tracing for %s is nonexistent!";
 
 	public static void print(Object object) {
 		History objectHistory = getHistory(object);

@@ -8,7 +8,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Trace.print(new Object());
+		Trace.print(new String("Hello"));
 
 	}
 
