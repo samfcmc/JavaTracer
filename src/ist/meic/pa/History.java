@@ -13,7 +13,6 @@ public class History {
 	}
 
 	public History(List<HistoryElement> historyElements) {
-		super();
 		this.historyElements = historyElements;
 	}
 

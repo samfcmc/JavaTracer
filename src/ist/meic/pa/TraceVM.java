@@ -1,29 +1,22 @@
 package ist.meic.pa;
 
 import java.io.PrintStream;
-import java.lang.reflect.*;
-
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.NotFoundException;
+import javassist.*;
 
 public class TraceVM {
 
 	private static PrintStream printStream = System.err;
 
-	public static void main(String[] args) throws NotFoundException,
-			CannotCompileException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static void main(String[] args) throws Throwable {
 		if (args.length < 1) {
 			printStream.println("Invalid number of arguments.");
 			printStream.println("Usage: TraceVM <filename>");
 		} else {
+			Translator translator = new TraceTranslator();
 			ClassPool pool = ClassPool.getDefault();
-			CtClass ctClass = pool.get(args[0]);
-			Class<?> rtClass = ctClass.toClass();
-			Method main = rtClass.getMethod("main", args.getClass());
-			main.invoke(null, new Object[] {});
+			Loader classLoader = new Loader();
+			classLoader.addTranslator(pool, translator);
+			classLoader.run(args); //throws throwable...
 		}
 	}
-
 }
