@@ -5,7 +5,6 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtMethod;
-import javassist.CtNewMethod;
 import javassist.NotFoundException;
 import javassist.Translator;
 import javassist.expr.ConstructorCall;
@@ -38,13 +37,11 @@ public class TraceTranslator implements Translator {
 	
 	private static void traceMethodParameters(CtClass ctClass, CtMethod ctMethod) throws CannotCompileException, NotFoundException {
 		//TODO: modify method starts
-		String methodName = ctMethod.getName();
-		int methodLineNumber = ctMethod.getMethodInfo().getLineNumber(0);
+		//String methodName = ctMethod.getName();
+		//int methodLineNumber = ctMethod.getMethodInfo().getLineNumber(0);
 			
 		//need to fix this part
 		String beforeMethod = "";
-				//"	ist.meic.pa.HistoryElement element = new ist.meic.pa.HistoryElement(\"" + tracingParams + "\");" +
-				//"	ist.meic.pa.Trace.getHistory($1).addHistoryElement(element);" + 
 		ctMethod.insertBefore(beforeMethod);
 	}
 	
@@ -61,10 +58,11 @@ public class TraceTranslator implements Translator {
 	private static void traceConstructor(CtClass ctClass, CtConstructor ctConstructor) throws CannotCompileException {
 		final String beforeCall = 
 				"{" +
-				"	ist.meic.pa.History hist = new ist.meic.pa.History();" + 
-				"	ist.meic.pa.Trace.createHistory(($w)$0, hist);" +
-				"   ist.meic.pa.HistoryElement element = new ist.meic.pa.ConstructorHistoryElement();" +
-				"   ist.meic.pa.Trace.getHistory(($w)$0).addHistoryElement(element);" +
+				//continua a dar stack overflow
+				//"	ist.meic.pa.History hist = new ist.meic.pa.History();" + 
+				//"	ist.meic.pa.Trace.createHistory(($w)$0, hist);" +
+				//"   ist.meic.pa.HistoryElement element = new ist.meic.pa.ConstructorHistoryElement();" +
+				//"   ist.meic.pa.Trace.getHistory(($w)$0).addHistoryElement(element);" +
 				"   $_ = $proceed($$);" +
 				"}";
 		ctConstructor.instrument(new ExprEditor() {
