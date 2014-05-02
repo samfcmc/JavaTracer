@@ -37,21 +37,16 @@ public class TraceTranslator implements Translator {
 		//TODO: modify method starts
 		String methodName = ctMethod.getName();
 		int methodLineNumber = ctMethod.getMethodInfo().getLineNumber(0);
-		ctMethod.setName(methodName + "$original");
-		ctMethod = CtNewMethod.copy(ctMethod, methodName, ctClass, null);
 			
 		//need to fix this part
-		String methodBody = 
+		String beforeMethod = 
 				"{" +
 				"	ist.meic.pa.History hist = new ist.meic.pa.History();" + 
 				//"	ist.meic.pa.Trace.createHistory($1, hist);" +
 				//"	ist.meic.pa.HistoryElement element = new ist.meic.pa.HistoryElement(\"" + tracingParams + "\");" +
 				//"	ist.meic.pa.Trace.getHistory($1).addHistoryElement(element);" + 
-				"	return ($r)" + methodName + "$original($$);" +
 				"}";
-		
-		ctMethod.setBody(methodBody);
-		ctClass.addMethod(ctMethod);
+		ctMethod.insertBefore(beforeMethod);
 	}
 	
 	private static void traceMethodReturns(CtClass ctClass, CtMethod ctMethod) {
