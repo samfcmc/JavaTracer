@@ -12,7 +12,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Trace.print(foo(new String("Hello")));
+		Trace.print(new Main());
 	}
 
 }
