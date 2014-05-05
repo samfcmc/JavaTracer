@@ -1,7 +1,7 @@
 package ist.meic.pa;
 
 import java.io.PrintStream;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class Trace {
 
-	private static Map<Integer, History> history = new HashMap<Integer, History>();
+	private static Map<Object, History> history = new IdentityHashMap<Object, History>();
 	private static PrintStream printStream = System.err;
 	private static final String NO_HISTORY = "Tracing for %s is nonexistent!";
 	private static final String OBJECT_HISTORY = "Tracing for %s";
@@ -29,11 +29,11 @@ public class Trace {
 	}
 
 	public static History getHistory(Object object) {
-		return history.get(object.hashCode());
+		return history.get(object);
 	}
 
-	public static void createHistory(Object object, History hist) {
-		history.put(object.hashCode(), hist);
+	public static void createHistory(Object object) {
+		history.put(object, new History());
 	}
 
 }

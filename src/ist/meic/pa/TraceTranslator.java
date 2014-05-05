@@ -3,12 +3,11 @@ package ist.meic.pa;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
-import javassist.CtConstructor;
-import javassist.CtMethod;
 import javassist.NotFoundException;
 import javassist.Translator;
 import javassist.expr.ConstructorCall;
 import javassist.expr.ExprEditor;
+import javassist.expr.MethodCall;
 
 public class TraceTranslator implements Translator {
 
@@ -17,57 +16,41 @@ public class TraceTranslator implements Translator {
 			CannotCompileException {
 		CtClass ctClass = pool.get(className);
 		
-		traceMethods(ctClass);
-		traceConstructors(ctClass);
+		traceMethodCalls(ctClass);
+		traceConstructorCalls(ctClass);
 	}
 
 	@Override
 	public void start(ClassPool pool) throws NotFoundException,
 			CannotCompileException {
-
 	}
 	
-	private static void traceMethods(CtClass ctClass) throws CannotCompileException, NotFoundException {
-		//TODO: modify methods
-		for(CtMethod ctMethod : ctClass.getDeclaredMethods()) {
-			traceMethodParameters(ctClass, ctMethod);
-			traceMethodReturns(ctClass, ctMethod);
-		}
+	private static void traceMethodCalls(CtClass ctClass) throws CannotCompileException, NotFoundException {
+		final String template = "{}"; 
+		
+		ctClass.instrument(new ExprEditor() {
+			public void edit(MethodCall call) throws CannotCompileException {
+				try {
+					System.err.println("Calling method " + call.getMethod().getLongName() + " in " + call.getFileName() + ":" + call.getLineNumber());
+					call.replace(template);
+				} catch (NotFoundException e) {
+					//black hole
+				}
+			}
+		});
 	}
 	
-	private static void traceMethodParameters(CtClass ctClass, CtMethod ctMethod) throws CannotCompileException, NotFoundException {
-		//TODO: modify method starts
-		//String methodName = ctMethod.getName();
-		//int methodLineNumber = ctMethod.getMethodInfo().getLineNumber(0);
-			
-		//need to fix this part
-		String beforeMethod = "";
-		ctMethod.insertBefore(beforeMethod);
-	}
-	
-	private static void traceMethodReturns(CtClass ctClass, CtMethod ctMethod) {
-		//TODO: modify method returns
-	}
-	
-	private static void traceConstructors(CtClass ctClass) throws CannotCompileException {
-		for(CtConstructor ctConstructor : ctClass.getDeclaredConstructors()) {
-			traceConstructor(ctClass, ctConstructor);
-		}
-	}
-	
-	private static void traceConstructor(CtClass ctClass, CtConstructor ctConstructor) throws CannotCompileException {
-		final String beforeCall = 
-				"{" +
-				//continua a dar stack overflow
-				//"	ist.meic.pa.History hist = new ist.meic.pa.History();" + 
-				//"	ist.meic.pa.Trace.createHistory(($w)$0, hist);" +
-				//"   ist.meic.pa.HistoryElement element = new ist.meic.pa.ConstructorHistoryElement();" +
-				//"   ist.meic.pa.Trace.getHistory(($w)$0).addHistoryElement(element);" +
-				"   $_ = $proceed($$);" +
-				"}";
-		ctConstructor.instrument(new ExprEditor() {
+	private static void traceConstructorCalls(CtClass ctClass) throws CannotCompileException {
+		final String template = "{}";
+		
+		ctClass.instrument(new ExprEditor() {
 			public void edit(ConstructorCall call) throws CannotCompileException {
-				call.replace(beforeCall);
+				try {
+					System.err.println("Calling constructor " + call.getConstructor().getLongName() + " in " + call.getFileName() + ":" + call.getLineNumber());
+					call.replace(template);
+				} catch (NotFoundException e) {
+					//black hole
+				}
 			}
 		});
 	}

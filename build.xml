@@ -3,9 +3,13 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="bin" />
 	<property name="jar.file" value="tracer" />
-	<property name="libs.dir" location="libs"/>
+	<property name="libs.dir" location="libs" />
 
-
+	<path id="classpath">
+		<pathelement location="tracer.jar"/>
+		<pathelement location="${libs.dir}/javassist.jar"/>
+	</path>
+	
 	<target name="prepare" description="Create working dirs">
 		<mkdir dir="${build.dir}" />
 	</target>
@@ -33,13 +37,15 @@
 
 	<target name="run-traceVM" depends="build">
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
+			<classpath refid="classpath">
+			</classpath>
 			<arg value="ist.meic.pa.main.Main" />
 		</java>
 	</target>
-	
+
 	<target name="run" depends="build">
 		<java classname="ist.meic.pa.main.Main" dir="${build.dir}" fork="true">
 		</java>
-	</target>	
+	</target>
 
 </project>
