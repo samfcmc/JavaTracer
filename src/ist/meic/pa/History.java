@@ -1,5 +1,7 @@
 package ist.meic.pa;
 
+import ist.meic.pa.historyelements.HistoryElement;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;

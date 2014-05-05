@@ -1,4 +1,4 @@
-package ist.meic.pa;
+package ist.meic.pa.historyelements;
 
 public class UsedAsArgumentHistoryElement extends HistoryElement {
 
@@ -11,17 +11,11 @@ public class UsedAsArgumentHistoryElement extends HistoryElement {
 
 	public UsedAsArgumentHistoryElement(String methodName, String fileName,
 			int lineNumber, String argumentType) {
-		super(methodName, fileName, lineNumber);
+		super(methodName, fileName, lineNumber, Direction.IN);
 		this.argumentType = argumentType;
 	}
 
 	public String getArgumentType() {
 		return argumentType;
-	}
-
-	@Override
-	public String toString() {
-		return "  -> " + getMethodName() + " on " + getFileName() + ":"
-				+ getLineNumber();
 	}
 }

@@ -1,5 +1,9 @@
 package ist.meic.pa;
 
+import ist.meic.pa.historyelements.HistoryElement;
+import ist.meic.pa.historyelements.ReturnHistoryElement;
+import ist.meic.pa.historyelements.UsedAsArgumentHistoryElement;
+
 import java.io.PrintStream;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -35,16 +39,6 @@ public class Trace {
 	public static void createHistory(Object object) {
 		if (!history.containsKey(object)) {
 			history.put(object, new History());
-		}
-	}
-
-	public static void addCallElementToHistory(Object[] objects,
-			String methodName, String fileName, int lineNumber) {
-		HistoryElement element = new CallHistoryElement(methodName, fileName,
-				lineNumber);
-		for (Object object : objects) {
-			createHistory(object);
-			getHistory(object).addHistoryElement(element);
 		}
 	}
 
