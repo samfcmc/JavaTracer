@@ -17,7 +17,7 @@ public class TraceTranslator implements Translator {
 		CtClass ctClass = pool.get(className);
 
 		traceMethodCalls(ctClass);
-		// traceConstructorCalls(ctClass);
+		traceConstructorCalls(ctClass);
 	}
 
 	@Override
