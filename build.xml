@@ -6,10 +6,19 @@
 	<property name="libs.dir" location="libs" />
 	<property name="debug.port" value="8000" />
 
-	<path id="classpath">
-		<pathelement location="tracer.jar" />
+	<path id="build.classpath">
 		<pathelement location="${libs.dir}/javassist.jar" />
 	</path>
+
+	<pathconvert property="manifest.classpath" pathsep=" ">
+		<path refid="build.classpath" />
+		<mapper>
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*.jar" to="${libs.dir}/*.jar" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
 
 	<target name="prepare" description="Create working dirs">
 		<mkdir dir="${build.dir}" />
@@ -26,7 +35,7 @@
 			debug="true">
 			<classpath>
 				<fileset dir="${libs.dir}">
-					<include name="**/*.jar" />
+					<include name="*.jar" />
 				</fileset>
 			</classpath>
 		</javac>
@@ -34,7 +43,13 @@
 
 	<target name="dist" depends="compile"
 		description="Create jar file for binary distribution">
-		<jar jarfile="${jar.file}.jar" basedir="${build.dir}" />
+		<jar jarfile="${jar.file}.jar" basedir="${build.dir}">
+			<!-- define MANIFEST.MF -->
+			<manifest>
+				<attribute name="Main-Class" value="ist.meic.pa.TraceVM" />
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+		</jar>
 	</target>
 
 	<target name="build" depends="dist"
@@ -42,16 +57,14 @@
 	</target>
 
 	<target name="run" depends="build">
-		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
-			<classpath refid="classpath">
-			</classpath>
+		<java jar="${jar.file}.jar" fork="true" classpath="build.classpath">
 			<arg value="ist.meic.pa.main.MyTest" />
 		</java>
 	</target>
 
 	<target name="debug" depends="build">
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
-			<classpath refid="classpath">
+			<classpath refid="build.classpath">
 			</classpath>
 			<arg value="ist.meic.pa.main.Test" />
 			<jvmarg value="-Xdebug" />

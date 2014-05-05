@@ -1,0 +1,11 @@
+Exception in thread "main" java.lang.ClassNotFoundException: caught an exception while obtaining a class file for tests/classes/Test2
+	at javassist.Loader.findClass(Loader.java:360)
+	at javassist.Loader.loadClass(Loader.java:312)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at javassist.Loader.run(Loader.java:289)
+	at ist.meic.pa.TraceVM.main(TraceVM.java:24)
+Caused by: javassist.NotFoundException: tests/classes/Test2
+	at javassist.ClassPool.get(ClassPool.java:450)
+	at ist.meic.pa.TraceTranslator.onLoad(TraceTranslator.java:17)
+	at javassist.Loader.findClass(Loader.java:341)
+	... 4 more
