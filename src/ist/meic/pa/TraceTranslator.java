@@ -5,7 +5,7 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
 import javassist.Translator;
-import javassist.expr.ConstructorCall;
+import javassist.expr.NewExpr;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
@@ -26,34 +26,38 @@ public class TraceTranslator implements Translator {
 	}
 	
 	private static void traceMethodCalls(CtClass ctClass) throws CannotCompileException, NotFoundException {
-		final String template = "{}"; 
-		
 		ctClass.instrument(new ExprEditor() {
 			public void edit(MethodCall call) throws CannotCompileException {
 				try {
-					System.err.println("Calling method " + call.getMethod().getLongName() + " in " + call.getFileName() + ":" + call.getLineNumber());
+					String template = "{" +
+					"	$_ = $proceed($$); " +
+					"	ist.meic.pa.Trace.addReturnElementToHistory($_,\"" + call.getMethod().getLongName() + "\", \"" + call.getFileName() + "\", " + call.getLineNumber() + ");" +
+					"}";
 					call.replace(template);
 				} catch (NotFoundException e) {
-					//black hole
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
 	}
 	
-	private static void traceConstructorCalls(CtClass ctClass) throws CannotCompileException {
-		final String template = "{}";
-		
+	private static void traceConstructorCalls(CtClass ctClass) throws CannotCompileException, NotFoundException {
 		ctClass.instrument(new ExprEditor() {
-			public void edit(ConstructorCall call) throws CannotCompileException {
+			public void edit(NewExpr newExpr) throws CannotCompileException {
 				try {
-					System.err.println("Calling constructor " + call.getConstructor().getLongName() + " in " + call.getFileName() + ":" + call.getLineNumber());
-					call.replace(template);
+					final String template = 
+							"{" +
+							"	$_ = $proceed($$); " +
+							"	ist.meic.pa.Trace.addReturnElementToHistory($_,\"" + newExpr.getConstructor().getLongName() + "\", \"" + newExpr.getFileName() + "\", " + newExpr.getLineNumber() + ");" +
+							"}";
+					newExpr.replace(template);
+					//System.err.println("Calling constructor for " + newExpr.getConstructor().getLongName() + " in " + newExpr.getFileName() + ":" + newExpr.getLineNumber());
 				} catch (NotFoundException e) {
-					//black hole
+					// black hole
 				}
 			}
 		});
-	}
-	
+	}	
 	
 }

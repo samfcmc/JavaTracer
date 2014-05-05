@@ -16,8 +16,8 @@ public class TraceVM {
 			ClassPool pool = ClassPool.getDefault();
 			Loader classLoader = new Loader();
 			classLoader.delegateLoadingOf("ist.meic.pa.Trace");
-			classLoader.delegateLoadingOf("ist.meic.pa.History");
-			classLoader.delegateLoadingOf("ist.meic.pa.HistoryElement");
+			//classLoader.delegateLoadingOf("ist.meic.pa.History");
+			//classLoader.delegateLoadingOf("ist.meic.pa.HistoryElement");
 			classLoader.addTranslator(pool, translator);
 			String[] restArgs = new String[args.length - 1];
 			System.arraycopy(args, 1, restArgs, 0, restArgs.length);

@@ -39,12 +39,12 @@
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
 			<classpath refid="classpath">
 			</classpath>
-			<arg value="ist.meic.pa.main.Main" />
+			<arg value="ist.meic.pa.main.Test" />
 		</java>
 	</target>
 
 	<target name="run" depends="build">
-		<java classname="ist.meic.pa.main.Main" dir="${build.dir}" fork="true">
+		<java classname="ist.meic.pa.main.Test" dir="${build.dir}" fork="true">
 		</java>
 	</target>
 
