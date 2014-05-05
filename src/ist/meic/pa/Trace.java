@@ -8,10 +8,6 @@ import java.io.PrintStream;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-/**
- * 
- *
- */
 public class Trace {
 
 	private static Map<Object, History> history = new IdentityHashMap<Object, History>();
@@ -50,15 +46,13 @@ public class Trace {
 		getHistory(object).addHistoryElement(element);
 	}
 
-	public static void addUsedAsArgumentElementToHistory(Object[] arguments,
+	public static void addUsedAsArgumentElementToHistory(Object[] objects,
 			String methodName, String fileName, int lineNumber) {
-
-		for (Object arg : arguments) {
-			String argumentType = arg.getClass().getName();
-			HistoryElement historyElement = new UsedAsArgumentHistoryElement(
-					methodName, fileName, lineNumber, argumentType);
-			createHistory(arg);
-			getHistory(arg).addHistoryElement(historyElement);
+		HistoryElement historyElement = new UsedAsArgumentHistoryElement(
+				methodName, fileName, lineNumber);
+		for (Object object : objects) {
+			createHistory(object);
+			getHistory(object).addHistoryElement(historyElement);
 		}
 	}
 
