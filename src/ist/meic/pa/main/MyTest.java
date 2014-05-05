@@ -2,7 +2,7 @@ package ist.meic.pa.main;
 
 import ist.meic.pa.Trace;
 
-public class Test {
+public class MyTest {
 
 	public Object foo() {
 		return new String("Foo");
@@ -30,7 +30,7 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		(new Test()).test();
+		(new MyTest()).test();
 	}
 
 }

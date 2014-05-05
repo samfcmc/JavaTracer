@@ -45,7 +45,7 @@
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
 			<classpath refid="classpath">
 			</classpath>
-			<arg value="ist.meic.pa.main.Test" />
+			<arg value="ist.meic.pa.main.MyTest" />
 		</java>
 	</target>
 
