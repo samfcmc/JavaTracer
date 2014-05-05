@@ -41,7 +41,7 @@
 		description="Builds the project and generate a jar">
 	</target>
 
-	<target name="run-traceVM" depends="build">
+	<target name="run" depends="build">
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
 			<classpath refid="classpath">
 			</classpath>
@@ -57,11 +57,6 @@
 			<jvmarg value="-Xdebug" />
 			<jvmarg
 				value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=${debug.port}" />
-		</java>
-	</target>
-
-	<target name="run" depends="build">
-		<java classname="ist.meic.pa.main.Test" dir="${build.dir}" fork="true">
 		</java>
 	</target>
 
