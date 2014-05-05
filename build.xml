@@ -4,12 +4,13 @@
 	<property name="build.dir" value="bin" />
 	<property name="jar.file" value="tracer" />
 	<property name="libs.dir" location="libs" />
+	<property name="debug.port" value="8000" />
 
 	<path id="classpath">
-		<pathelement location="tracer.jar"/>
-		<pathelement location="${libs.dir}/javassist.jar"/>
+		<pathelement location="tracer.jar" />
+		<pathelement location="${libs.dir}/javassist.jar" />
 	</path>
-	
+
 	<target name="prepare" description="Create working dirs">
 		<mkdir dir="${build.dir}" />
 	</target>
@@ -18,8 +19,11 @@
 		<delete dir="${build.dir}" />
 	</target>
 
-	<target name="compile" description="Compile Java sources and copy to WEB-INF/classes dir" depends="prepare">
-		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" debug="true">
+	<target name="compile"
+		description="Compile Java sources and copy to WEB-INF/classes dir"
+		depends="prepare">
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}"
+			debug="true">
 			<classpath>
 				<fileset dir="${libs.dir}">
 					<include name="**/*.jar" />
@@ -28,11 +32,13 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="compile" description="Create jar file for binary distribution">
+	<target name="dist" depends="compile"
+		description="Create jar file for binary distribution">
 		<jar jarfile="${jar.file}.jar" basedir="${build.dir}" />
 	</target>
 
-	<target name="build" depends="dist" description="Builds the project and generate a jar">
+	<target name="build" depends="dist"
+		description="Builds the project and generate a jar">
 	</target>
 
 	<target name="run-traceVM" depends="build">
@@ -40,6 +46,17 @@
 			<classpath refid="classpath">
 			</classpath>
 			<arg value="ist.meic.pa.main.Test" />
+		</java>
+	</target>
+
+	<target name="debug" depends="build">
+		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
+			<classpath refid="classpath">
+			</classpath>
+			<arg value="ist.meic.pa.main.Test" />
+			<jvmarg value="-Xdebug" />
+			<jvmarg
+				value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=${debug.port}" />
 		</java>
 	</target>
 
