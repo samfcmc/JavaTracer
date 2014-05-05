@@ -31,9 +31,6 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		(new Test()).test();
-		String test = new String("Testing");
-		test(test);
-		Trace.print(test);
 	}
 
 }
