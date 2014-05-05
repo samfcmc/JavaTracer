@@ -38,10 +38,12 @@ public class Trace {
 		}
 	}
 
-	public static void addCallElementToHistory(Object object, String methodName, String fileName, int lineNumber) {
-		createHistory(object);
+	public static void addCallElementToHistory(Object[] objects, String methodName, String fileName, int lineNumber) {
 		HistoryElement element = new CallHistoryElement(methodName,fileName,lineNumber);
-		getHistory(object).addHistoryElement(element);
+		for(Object object : objects) {
+			createHistory(object);
+			getHistory(object).addHistoryElement(element);
+		}
 	}
 	
 	public static void addReturnElementToHistory(Object object, String methodName, String fileName, int lineNumber) {
