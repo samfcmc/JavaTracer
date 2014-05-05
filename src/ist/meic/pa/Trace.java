@@ -33,23 +33,39 @@ public class Trace {
 	}
 
 	public static void createHistory(Object object) {
-		if(!history.containsKey(object)) {
+		if (!history.containsKey(object)) {
 			history.put(object, new History());
 		}
 	}
 
-	public static void addCallElementToHistory(Object[] objects, String methodName, String fileName, int lineNumber) {
-		HistoryElement element = new CallHistoryElement(methodName,fileName,lineNumber);
-		for(Object object : objects) {
+	public static void addCallElementToHistory(Object[] objects,
+			String methodName, String fileName, int lineNumber) {
+		HistoryElement element = new CallHistoryElement(methodName, fileName,
+				lineNumber);
+		for (Object object : objects) {
 			createHistory(object);
 			getHistory(object).addHistoryElement(element);
 		}
 	}
-	
-	public static void addReturnElementToHistory(Object object, String methodName, String fileName, int lineNumber) {
+
+	public static void addReturnElementToHistory(Object object,
+			String methodName, String fileName, int lineNumber) {
 		createHistory(object);
-		HistoryElement element = new ReturnHistoryElement(methodName,fileName,lineNumber);
+		HistoryElement element = new ReturnHistoryElement(methodName, fileName,
+				lineNumber);
 		getHistory(object).addHistoryElement(element);
+	}
+
+	public static void addUsedAsArgumentElementToHistory(Object[] arguments,
+			String methodName, String fileName, int lineNumber) {
+
+		for (Object arg : arguments) {
+			String argumentType = arg.getClass().getName();
+			HistoryElement historyElement = new UsedAsArgumentHistoryElement(
+					methodName, fileName, lineNumber, argumentType);
+			createHistory(arg);
+			getHistory(arg).addHistoryElement(historyElement);
+		}
 	}
 
 }
