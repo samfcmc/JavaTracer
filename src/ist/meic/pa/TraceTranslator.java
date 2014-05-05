@@ -5,9 +5,9 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
 import javassist.Translator;
-import javassist.expr.ConstructorCall;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
+import javassist.expr.NewExpr;
 
 public class TraceTranslator implements Translator {
 
@@ -28,14 +28,14 @@ public class TraceTranslator implements Translator {
 	private static void traceMethodCalls(CtClass ctClass)
 			throws CannotCompileException, NotFoundException {
 		ctClass.instrument(new ExprEditor() {
-			@Override
 			public void edit(MethodCall call) throws CannotCompileException {
 				try {
-					String template = "{ "
-							+ "$_ = $proceed($$); "
-							+ " ist.meic.pa.Trace.addReturnElementToHistory($_,\"%s\", \"%s\", %d);"
-							+ " ist.meic.pa.Trace.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);"
-							+ "} ";
+					String template = 
+							"{" +
+							" 	ist.meic.pa.Trace.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);" +
+							"	$_ = $proceed($$);" +
+							" 	ist.meic.pa.Trace.addReturnElementToHistory($_,\"%s\", \"%s\", %d); " +
+							"}";
 
 					call.replace(String.format(template, call.getMethod()
 							.getLongName(), call.getFileName(), call
@@ -51,14 +51,14 @@ public class TraceTranslator implements Translator {
 	private static void traceConstructorCalls(CtClass ctClass)
 			throws CannotCompileException, NotFoundException {
 		ctClass.instrument(new ExprEditor() {
-			@Override
-			public void edit(ConstructorCall newExpr)
+			public void edit(NewExpr newExpr)
 					throws CannotCompileException {
 				try {
-					final String template = "{ "
-							+ "	$_ = $proceed($$); "
-							+ "	ist.meic.pa.Trace.addReturnElementToHistory($_, \"%s\", \"%s\", %d);"
-							+ "} ";
+					final String template = 
+							"{" +
+							"	$_ = $proceed($$);" +
+							"	ist.meic.pa.Trace.addReturnElementToHistory($_, \"%s\", \"%s\", %d);" +
+							"}";
 					newExpr.replace(String.format(template, newExpr
 							.getConstructor().getLongName(), newExpr
 							.getFileName(), newExpr.getLineNumber()));

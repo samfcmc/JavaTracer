@@ -14,9 +14,6 @@ public abstract class HistoryElement {
 	private int lineNumber;
 	private final Direction direction;
 
-	/**
-	 * 
-	 */
 	public HistoryElement() {
 		this("", "", 0, Direction.NONE);
 	}
