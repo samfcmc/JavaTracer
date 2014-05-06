@@ -17,9 +17,6 @@ public class TraceTranslator implements Translator {
 		CtClass ctClass = pool.get(className);
 
 		traceClass(ctClass);
-
-		// traceConstructorCalls(ctClass);
-		// traceMethodCalls(ctClass);
 	}
 
 	@Override
@@ -41,11 +38,12 @@ public class TraceTranslator implements Translator {
 
 	private void traceMethodCall(MethodCall call) throws CannotCompileException {
 		try {
-			String template = "{"
-					+ " 	ist.meic.pa.Trace.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);"
-					+ "	$_ = $proceed($$);"
-					+ " 	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_,\"%s\", \"%s\", %d); "
-					+ "}";
+			String template = 
+					"{" +
+					"	ist.meic.pa.Trace.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);" +
+					"	$_ = $proceed($$);" +
+					"	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_,\"%s\", \"%s\", %d);" +
+					"}";
 			call.replace(String.format(template,
 					call.getMethod().getLongName(), call.getFileName(),
 					call.getLineNumber(), call.getMethod().getLongName(),
@@ -57,10 +55,11 @@ public class TraceTranslator implements Translator {
 
 	private void traceNewExpr(NewExpr newExpr) throws CannotCompileException {
 		try {
-			final String template = "{"
-					+ "	$_ = $proceed($$);"
-					+ "	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_, \"%s\", \"%s\", %d);"
-					+ "}";
+			final String template = 
+					"{" +
+					"	$_ = $proceed($$);" +
+					"	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_, \"%s\", \"%s\", %d);" +
+					"}";
 			newExpr.replace(String.format(template, newExpr
 					.getConstructor().getLongName(), newExpr
 					.getFileName(), newExpr.getLineNumber()));
@@ -68,5 +67,5 @@ public class TraceTranslator implements Translator {
 			e.printStackTrace();
 		}
 	}
-
+	
 }
