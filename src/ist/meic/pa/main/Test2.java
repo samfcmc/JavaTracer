@@ -23,7 +23,7 @@ class Test {
 		Trace.print(o);
 
 		for (Object obj : m.values()) {
-			System.out.println(obj);
+			System.err.println(obj);
 		}
 
 		Trace.print(o);

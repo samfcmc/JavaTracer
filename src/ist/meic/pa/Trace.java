@@ -45,6 +45,46 @@ public class Trace {
 				lineNumber);
 		getHistory(object).addHistoryElement(element);
 	}
+	
+	public static void addReturnElementToHistory(int i,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Integer(i), methodName, fileName, lineNumber);
+	}	
+
+	public static void addReturnElementToHistory(boolean b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Boolean(b), methodName, fileName, lineNumber);
+	}	
+	
+	public static void addReturnElementToHistory(char b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Character(b), methodName, fileName, lineNumber);
+	}	
+	
+	public static void addReturnElementToHistory(byte b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Byte(b), methodName, fileName, lineNumber);
+	}	
+	
+	public static void addReturnElementToHistory(short b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Short(b), methodName, fileName, lineNumber);
+	}	
+	
+	public static void addReturnElementToHistory(long b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Long(b), methodName, fileName, lineNumber);
+	}	
+	
+	public static void addReturnElementToHistory(float b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Float(b), methodName, fileName, lineNumber);
+	}	
+	
+	public static void addReturnElementToHistory(double b,
+			String methodName, String fileName, int lineNumber) {
+		addReturnElementToHistory(new Double(b), methodName, fileName, lineNumber);
+	}	
 
 	public static void addUsedAsArgumentElementToHistory(Object[] objects,
 			String methodName, String fileName, int lineNumber) {

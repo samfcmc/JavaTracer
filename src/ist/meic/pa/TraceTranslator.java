@@ -34,7 +34,7 @@ public class TraceTranslator implements Translator {
 							"{" +
 							" 	ist.meic.pa.Trace.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);" +
 							"	$_ = $proceed($$);" +
-							" 	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_,\"%s\", \"%s\", %d); " +
+							" 	ist.meic.pa.Trace.addReturnElementToHistory($_,\"%s\", \"%s\", %d); " +
 							"}";
 
 					call.replace(String.format(template, call.getMethod()
