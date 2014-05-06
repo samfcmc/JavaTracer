@@ -61,6 +61,12 @@
 			<arg value="ist.meic.pa.main.MyTest" />
 		</java>
 	</target>
+	
+	<target name="test" depends="build">
+		<java jar="${jar.file}.jar" fork="true" classpath="build.classpath">
+			<arg value="ist.meic.pa.main.Test2" />
+		</java>
+	</target>
 
 	<target name="debug" depends="build">
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
