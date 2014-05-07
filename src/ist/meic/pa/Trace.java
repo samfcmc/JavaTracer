@@ -1,5 +1,8 @@
 package ist.meic.pa;
 
+import ist.meic.pa.historyelements.CastHistoryElement;
+import ist.meic.pa.historyelements.Direction;
+import ist.meic.pa.historyelements.FieldAccessHistoryElement;
 import ist.meic.pa.historyelements.HistoryElement;
 import ist.meic.pa.historyelements.ReturnHistoryElement;
 import ist.meic.pa.historyelements.UsedAsArgumentHistoryElement;
@@ -44,7 +47,7 @@ public class Trace {
 		HistoryElement element = new ReturnHistoryElement(methodName, fileName,
 				lineNumber);
 		getHistory(object).addHistoryElement(element);
-	}	
+	}
 
 	public static void addUsedAsArgumentElementToHistory(Object[] objects,
 			String methodName, String fileName, int lineNumber) {
@@ -56,4 +59,32 @@ public class Trace {
 		}
 	}
 
+	public static void addCastElementToHistory(Object object,
+			Class<?> castType, String fileName, int lineNumber) {
+		HistoryElement element = new CastHistoryElement(castType.getName(),
+				fileName, lineNumber);
+		createHistory(object);
+		getHistory(object).addHistoryElement(element);
+	}
+
+	private static void addFieldAccessElementToHistory(Object object,
+			String fieldName, String fileName, int lineNumber,
+			Direction direction) {
+		HistoryElement element = new FieldAccessHistoryElement(fieldName,
+				fileName, lineNumber, direction);
+		createHistory(object);
+		getHistory(object).addHistoryElement(element);
+	}
+
+	public static void addFieldSetElementToHistory(Object object,
+			String fieldName, String fileName, int lineNumber) {
+		addFieldAccessElementToHistory(object, fieldName, fileName, lineNumber,
+				Direction.IN);
+	}
+
+	public static void addFieldGetElementToHistory(Object object,
+			String fieldName, String fileName, int lineNumber) {
+		addFieldAccessElementToHistory(object, fieldName, fileName, lineNumber,
+				Direction.OUT);
+	}
 }

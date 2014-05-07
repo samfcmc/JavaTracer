@@ -6,18 +6,19 @@ import javassist.CtClass;
 import javassist.NotFoundException;
 import javassist.Translator;
 
-public class TraceTranslator implements Translator {
+public class TraceTranslatorExtended implements Translator {
 
 	@Override
-	public void onLoad(ClassPool pool, String className)
-			throws NotFoundException, CannotCompileException {
+	public void onLoad(ClassPool pool, String className) throws NotFoundException,
+			CannotCompileException {
 		CtClass ctClass = pool.get(className);
 
-		ctClass.instrument(new TraceExprEditor()); 
+		ctClass.instrument(new TraceExprEditorExtended()); 
 	}
 
 	@Override
-	public void start(ClassPool pool) throws NotFoundException,
+	public void start(ClassPool arg0) throws NotFoundException,
 			CannotCompileException {
 	}
+
 }

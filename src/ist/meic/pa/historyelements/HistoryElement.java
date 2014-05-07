@@ -9,29 +9,20 @@ package ist.meic.pa.historyelements;
  */
 public abstract class HistoryElement {
 
-	private String methodName;
+	//private String methodName;
 	private String fileName;
 	private int lineNumber;
 	private final Direction direction;
 
 	public HistoryElement() {
-		this("", "", 0, Direction.NONE);
+		this("", 0, Direction.NONE);
 	}
 
-	public HistoryElement(String methodName, String fileName, int lineNumber,
+	public HistoryElement(String fileName, int lineNumber,
 			Direction direction) {
-		this.methodName = methodName;
 		this.fileName = fileName;
 		this.lineNumber = lineNumber;
 		this.direction = direction;
-	}
-
-	public String getMethodName() {
-		return methodName;
-	}
-
-	public void setMethodName(String methodName) {
-		this.methodName = methodName;
 	}
 
 	public String getFileName() {
@@ -50,10 +41,8 @@ public abstract class HistoryElement {
 		this.lineNumber = lineNumber;
 	}
 
-	@Override
-	public String toString() {
-		return "  " + this.direction.getString() + " " + this.methodName
-				+ " on " + this.fileName + ":" + this.lineNumber;
+	public Direction getDirection() {
+		return direction;
 	}
 
 }

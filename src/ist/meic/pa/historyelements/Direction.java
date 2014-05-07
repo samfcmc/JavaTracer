@@ -2,7 +2,7 @@ package ist.meic.pa.historyelements;
 
 public enum Direction {
 
-	IN("->"), OUT("<-"), NONE("");
+	IN("->"), OUT("<-"), NONE(""), CAST("<>");
 
 	private String string;
 

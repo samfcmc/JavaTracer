@@ -4,6 +4,8 @@ import ist.meic.pa.Trace;
 
 public class MyTest {
 
+	public int i;
+	
 	public Object foo() {
 		return new String("Foo");
 	}
@@ -28,9 +30,11 @@ public class MyTest {
 
 	/**
 	 * @param args
-	 */
+	 */	
 	public static void main(String[] args) {
-		(new MyTest()).test();
+		MyTest test = new MyTest();
+		test.i = 2;
+		Trace.print(test);
 	}
 
 }
