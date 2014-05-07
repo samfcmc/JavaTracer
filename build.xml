@@ -44,11 +44,13 @@
 
 	<target name="dist" depends="compile"
 		description="Create jar file for binary distribution">
-		<jar jarfile="${jar.file}.jar" basedir="${build.dir}">
+		<jar jarfile="${jar.file}.jar">
+			<fileset dir="${build.dir}" />
+			<fileset dir="${src.dir}" />
 			<!-- define MANIFEST.MF -->
 			<manifest>
 				<attribute name="Main-Class" value="ist.meic.pa.TraceVM" />
-				<attribute name="Class-Path" value="${manifest.classpath}"/>
+				<attribute name="Class-Path" value="${manifest.classpath}" />
 			</manifest>
 		</jar>
 	</target>
@@ -64,7 +66,7 @@
 			<arg value="ist.meic.pa.main.MyTest" />
 		</java>
 	</target>
-	
+
 	<target name="test" depends="build">
 		<java jar="${jar.file}.jar" fork="true" classpath="build.classpath">
 			<arg value="ist.meic.pa.main.Test2" />
