@@ -4,6 +4,7 @@
 	<property name="build.dir" value="bin" />
 	<property name="jar.file" value="tracer" />
 	<property name="libs.dir" location="libs" />
+	<property name="doc.dir" location="doc" />
 	<property name="debug.port" value="8000" />
 
 	<path id="build.classpath">
@@ -57,6 +58,10 @@
 
 	<target name="build" depends="dist"
 		description="Builds the project and generate a jar">
+	</target>
+
+	<target name="doc" depends="build" description="generate documentation">
+		<javadoc sourcefiles="${src.dir}/ist/meic/pa/Trace.java" destdir="${doc.dir}"/>
 	</target>
 
 	<target name="run" depends="build">
