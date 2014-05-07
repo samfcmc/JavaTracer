@@ -18,25 +18,22 @@ public class TraceExprEditorExtended extends TraceExprEditor {
 		String template = "";
 		if (fieldAccess.isWriter()) {
 			template = "{"
-					+ "	ist.meic.pa.Trace.addFieldSetElementToHistory($0, \"%s\", \"%s\", %d);"
+					+ "	ist.meic.pa.Trace.addFieldSetElementToHistory(($w)$0, \"%s\", \"%s\", %d);"
+					+ "	$_ = $proceed($$);" + "}";
+		} else {
+			template = "{"
 					+ "	$_ = $proceed($$);"
+					+ "	ist.meic.pa.Trace.addFieldGetElementToHistory(($w)$0, \"%s\", \"%s\", %d);"
 					+ "}";
 		}
-		else {
-			template = "{"
-					+ "	ist.meic.pa.Trace.addFieldGetElementToHistory($0, \"%s\", \"%s\", %d);"
-					+ "	$_ = $proceed($$);" + "}";
-		}
-		
-		fieldAccess.replace(String.format(template, fieldAccess.getFieldName(), fieldAccess.getFileName(),
-				fieldAccess.getLineNumber()));
+		fieldAccess.replace(String.format(template, fieldAccess.getFieldName(),
+				fieldAccess.getFileName(), fieldAccess.getLineNumber()));
 	}
 
 	private void traceCast(Cast cast) throws CannotCompileException {
 		String template = "{"
-				+ "	ist.meic.pa.Trace.addCastElementToHistory($1, $type, \"%s\", %d);"
+				+ "	ist.meic.pa.Trace.addCastElementToHistory(($w)$1, $type, \"%s\", %d);"
 				+ "	$_ = $proceed($$);" + "}";
-		System.err.println("CAST FOUND HERE");
 		cast.replace(String.format(template, cast.getFileName(),
 				cast.getLineNumber()));
 	}

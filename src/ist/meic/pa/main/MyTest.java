@@ -34,6 +34,7 @@ public class MyTest {
 	public static void main(String[] args) {
 		MyTest test = new MyTest();
 		test.i = 2;
+		for(int i = test.i;i<2;i++);
 		Trace.print(test);
 	}
 
