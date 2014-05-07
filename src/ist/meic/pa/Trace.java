@@ -31,17 +31,17 @@ public class Trace {
 		}
 	}
 
-	public static History getHistory(Object object) {
+	protected static History getHistory(Object object) {
 		return history.get(object);
 	}
 
-	public static void createHistory(Object object) {
+	protected static void createHistory(Object object) {
 		if (!history.containsKey(object)) {
 			history.put(object, new History());
 		}
 	}
 
-	public static void addReturnElementToHistory(Object object,
+	protected static void addReturnElementToHistory(Object object,
 			String methodName, String fileName, int lineNumber) {
 		createHistory(object);
 		HistoryElement element = new ReturnHistoryElement(methodName, fileName,
@@ -49,7 +49,7 @@ public class Trace {
 		getHistory(object).addHistoryElement(element);
 	}
 
-	public static void addUsedAsArgumentElementToHistory(Object[] objects,
+	protected static void addUsedAsArgumentElementToHistory(Object[] objects,
 			String methodName, String fileName, int lineNumber) {
 		HistoryElement historyElement = new UsedAsArgumentHistoryElement(
 				methodName, fileName, lineNumber);
@@ -59,7 +59,7 @@ public class Trace {
 		}
 	}
 
-	public static void addCastElementToHistory(Object object,
+	protected static void addCastElementToHistory(Object object,
 			Class<?> castType, String fileName, int lineNumber) {
 		HistoryElement element = new CastHistoryElement(castType.getName(),
 				fileName, lineNumber);
@@ -76,13 +76,13 @@ public class Trace {
 		getHistory(object).addHistoryElement(element);
 	}
 
-	public static void addFieldSetElementToHistory(Object object,
+	protected static void addFieldSetElementToHistory(Object object,
 			String fieldName, String fileName, int lineNumber) {
 		addFieldAccessElementToHistory(object, fieldName, fileName, lineNumber,
 				Direction.IN);
 	}
 
-	public static void addFieldGetElementToHistory(Object object,
+	protected static void addFieldGetElementToHistory(Object object,
 			String fieldName, String fileName, int lineNumber) {
 		addFieldAccessElementToHistory(object, fieldName, fileName, lineNumber,
 				Direction.OUT);
