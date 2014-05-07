@@ -7,22 +7,23 @@ import javassist.expr.MethodCall;
 import javassist.expr.NewExpr;
 
 public class TraceExprEditor extends ExprEditor {
+	@Override
 	public void edit(MethodCall call) throws CannotCompileException {
 		traceMethodCall(call);
 	}
 
+	@Override
 	public void edit(NewExpr newExpr) throws CannotCompileException {
 		traceNewExpr(newExpr);
 	}
-	
+
 	private void traceMethodCall(MethodCall call) throws CannotCompileException {
 		try {
-			String template = 
-					"{" +
-					"	ist.meic.pa.Trace.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);" +
-					"	$_ = $proceed($$);" +
-					"	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_,\"%s\", \"%s\", %d);" +
-					"}";
+			String template = "{"
+					+ "	ist.meic.pa.Tracer.addUsedAsArgumentElementToHistory($args, \"%s\", \"%s\", %d);"
+					+ "	$_ = $proceed($$);"
+					+ "	ist.meic.pa.Tracer.addReturnElementToHistory(($w)$_,\"%s\", \"%s\", %d);"
+					+ "}";
 			call.replace(String.format(template,
 					call.getMethod().getLongName(), call.getFileName(),
 					call.getLineNumber(), call.getMethod().getLongName(),
@@ -34,14 +35,13 @@ public class TraceExprEditor extends ExprEditor {
 
 	private void traceNewExpr(NewExpr newExpr) throws CannotCompileException {
 		try {
-			final String template = 
-					"{" +
-					"	$_ = $proceed($$);" +
-					"	ist.meic.pa.Trace.addReturnElementToHistory(($w)$_, \"%s\", \"%s\", %d);" +
-					"}";
-			newExpr.replace(String.format(template, newExpr
-					.getConstructor().getLongName(), newExpr
-					.getFileName(), newExpr.getLineNumber()));
+			final String template = "{"
+					+ "	$_ = $proceed($$);"
+					+ "	ist.meic.pa.Tracer.addReturnElementToHistory(($w)$_, \"%s\", \"%s\", %d);"
+					+ "}";
+			newExpr.replace(String.format(template, newExpr.getConstructor()
+					.getLongName(), newExpr.getFileName(), newExpr
+					.getLineNumber()));
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		}
