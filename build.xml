@@ -8,6 +8,7 @@
 
 	<path id="build.classpath">
 		<pathelement location="${libs.dir}/javassist.jar" />
+		<pathelement location="${jar.file}.jar" />
 	</path>
 
 	<pathconvert property="manifest.classpath" pathsep=" ">
@@ -57,7 +58,9 @@
 	</target>
 
 	<target name="run" depends="build">
-		<java jar="${jar.file}.jar" fork="true" classpath="build.classpath">
+		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
+			<classpath refid="build.classpath">
+			</classpath>
 			<arg value="ist.meic.pa.main.MyTest" />
 		</java>
 	</target>
@@ -72,7 +75,7 @@
 		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
 			<classpath refid="build.classpath">
 			</classpath>
-			<arg value="ist.meic.pa.main.Test" />
+			<arg value="ist.meic.pa.main.MyTest" />
 			<jvmarg value="-Xdebug" />
 			<jvmarg
 				value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=${debug.port}" />
