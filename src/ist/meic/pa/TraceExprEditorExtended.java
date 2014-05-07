@@ -18,18 +18,23 @@ public class TraceExprEditorExtended extends TraceExprEditor {
 	private void traceFieldAccess(FieldAccess fieldAccess)
 			throws CannotCompileException {
 		String template = "";
-		if (fieldAccess.isWriter()) {
-			template = "{"
-					+ "	ist.meic.pa.Tracer.addFieldSetElementToHistory(($w)$0, \"%s\", \"%s\", %d);"
-					+ "	$_ = $proceed($$);" + "}";
-		} else {
-			template = "{"
-					+ "	$_ = $proceed($$);"
-					+ "	ist.meic.pa.Tracer.addFieldGetElementToHistory(($w)$0, \"%s\", \"%s\", %d);"
-					+ "}";
+
+		// We will not trace static field accesses (for obvious reasons)
+		if (!fieldAccess.isStatic()) {
+			if (fieldAccess.isWriter()) {
+				template = "{"
+						+ "	ist.meic.pa.Tracer.addFieldSetElementToHistory(($w)$0, \"%s\", \"%s\", %d);"
+						+ "	$_ = $proceed($$);" + "}";
+			} else {
+				template = "{"
+						+ "	$_ = $proceed($$);"
+						+ "	ist.meic.pa.Tracer.addFieldGetElementToHistory(($w)$0, \"%s\", \"%s\", %d);"
+						+ "}";
+			}
+			fieldAccess.replace(String.format(template,
+					fieldAccess.getFieldName(), fieldAccess.getFileName(),
+					fieldAccess.getLineNumber()));
 		}
-		fieldAccess.replace(String.format(template, fieldAccess.getFieldName(),
-				fieldAccess.getFileName(), fieldAccess.getLineNumber()));
 	}
 
 	private void traceCast(Cast cast) throws CannotCompileException {
