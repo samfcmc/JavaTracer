@@ -21,6 +21,7 @@ public class Tracer {
 			ClassPool pool = ClassPool.getDefault();
 			Loader classLoader = new Loader();
 			classLoader.delegateLoadingOf("ist.meic.pa.Trace");
+			classLoader.delegateLoadingOf("ist.meic.pa.Tracer");
 			try {
 				classLoader.addTranslator(pool, translator);
 			} catch (NotFoundException e) {

@@ -31,17 +31,17 @@ public class Trace {
 		}
 	}
 
-	protected static History getHistory(Object object) {
+	public static History getHistory(Object object) {
 		return history.get(object);
 	}
 
-	protected static void createHistory(Object object) {
+	public static void createHistory(Object object) {
 		if (!history.containsKey(object)) {
 			history.put(object, new History());
 		}
 	}
 
-	protected static void addReturnElementToHistory(Object object,
+	public static void addReturnElementToHistory(Object object,
 			String methodName, String fileName, int lineNumber) {
 		createHistory(object);
 		HistoryElement element = new ReturnHistoryElement(methodName, fileName,
@@ -49,7 +49,7 @@ public class Trace {
 		getHistory(object).addHistoryElement(element);
 	}
 
-	protected static void addUsedAsArgumentElementToHistory(Object[] objects,
+	public static void addUsedAsArgumentElementToHistory(Object[] objects,
 			String methodName, String fileName, int lineNumber) {
 		HistoryElement historyElement = new UsedAsArgumentHistoryElement(
 				methodName, fileName, lineNumber);
@@ -59,7 +59,7 @@ public class Trace {
 		}
 	}
 
-	protected static void addCastElementToHistory(Object object,
+	public static void addCastElementToHistory(Object object,
 			Class<?> castType, String fileName, int lineNumber) {
 		HistoryElement element = new CastHistoryElement(castType.getName(),
 				fileName, lineNumber);
@@ -67,7 +67,7 @@ public class Trace {
 		getHistory(object).addHistoryElement(element);
 	}
 
-	private static void addFieldAccessElementToHistory(Object object,
+	public static void addFieldAccessElementToHistory(Object object,
 			String fieldName, String fileName, int lineNumber,
 			Direction direction) {
 		HistoryElement element = new FieldAccessHistoryElement(fieldName,
@@ -76,13 +76,13 @@ public class Trace {
 		getHistory(object).addHistoryElement(element);
 	}
 
-	protected static void addFieldSetElementToHistory(Object object,
+	public static void addFieldSetElementToHistory(Object object,
 			String fieldName, String fileName, int lineNumber) {
 		addFieldAccessElementToHistory(object, fieldName, fileName, lineNumber,
 				Direction.IN);
 	}
 
-	protected static void addFieldGetElementToHistory(Object object,
+	public static void addFieldGetElementToHistory(Object object,
 			String fieldName, String fileName, int lineNumber) {
 		addFieldAccessElementToHistory(object, fieldName, fileName, lineNumber,
 				Direction.OUT);
