@@ -23,12 +23,11 @@ public class Tracer {
 
 	private static PrintStream printStream = System.err;
 
-	public static void run(String mainArgs[], Translator translato) {
+	public static void run(String mainArgs[], Translator translator) {
 		if (mainArgs.length < 1) {
 			printStream.println("Invalid number of arguments.");
 			printStream.println("Usage: TraceVM <filename>");
 		} else {
-			Translator translator = new TraceTranslator();
 			ClassPool pool = ClassPool.getDefault();
 			Loader classLoader = new Loader();
 			classLoader.delegateLoadingOf("ist.meic.pa.Trace");

@@ -73,16 +73,18 @@
 	</target>
 
 	<target name="test" depends="build">
-		<java jar="${jar.file}.jar" fork="true" classpath="build.classpath">
-			<arg value="ist.meic.pa.main.Test2" />
+		<java classname="ist.meic.pa.TraceVMExtended" dir="${build.dir}" fork="true">
+			<classpath refid="build.classpath">
+			</classpath>
+			<arg value="ist.meic.pa.test.OurTest" />
 		</java>
 	</target>
 
 	<target name="debug" depends="build">
-		<java classname="ist.meic.pa.TraceVM" dir="${build.dir}" fork="true">
+		<java classname="ist.meic.pa.TraceVMExtended" dir="${build.dir}" fork="true">
 			<classpath refid="build.classpath">
 			</classpath>
-			<arg value="ist.meic.pa.main.MyTest" />
+			<arg value="ist.meic.pa.test.OurTest" />
 			<jvmarg value="-Xdebug" />
 			<jvmarg
 				value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=${debug.port}" />
