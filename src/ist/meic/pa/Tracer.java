@@ -48,8 +48,7 @@ public class Tracer {
 			} catch (Throwable e) {
 				// I know that this error message says nothing but we are
 				// catching a throwable
-				printStream
-						.println("ERROR: An error ocurred while running the class loader");
+				printStream.println("ERROR: " + e.getMessage());
 			}
 		}
 	}
